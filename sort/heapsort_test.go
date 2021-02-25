@@ -7,8 +7,8 @@ import (
 )
 
 func TestHeapSort(t *testing.T) {
-	b := make([]int, 5)
-	a := helper.GenerateIntArray(5)
+	b := make([]int, 100)
+	a := helper.GenerateIntArray(100)
 	copy(b, a)
 	HeapSort(a)
 	sort.Ints(b)
@@ -19,7 +19,7 @@ func TestHeapSort(t *testing.T) {
 
 func BenchmarkHeapSort(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		a := helper.GenerateIntArray(5)
+		a := helper.GenerateIntArray(100)
 		HeapSort(a)
 	}
 }

@@ -6,20 +6,20 @@ import (
 	"testing"
 )
 
-func TestBubbleSort(t *testing.T) {
+func TestShellSort(t *testing.T) {
 	b := make([]int, 100)
 	a := helper.GenerateIntArray(100)
 	copy(b, a)
-	BubbleSort(a)
+	SelectionSort(a)
 	sort.Ints(b)
 	if !helper.Compare_ints(a, b) {
-		t.Error("冒泡排序失败")
+		t.Error("希尔排序错误")
 	}
 }
 
-func BenchmarkBubbleSort(b *testing.B) {
+func BenchmarkShellSort(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		a := helper.GenerateIntArray(100)
-		BubbleSort(a)
+		ShellSort(a)
 	}
 }

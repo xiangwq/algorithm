@@ -7,8 +7,8 @@ import (
 )
 
 func TestSelectionSort(t *testing.T) {
-	b := make([]int, 100)
-	a := helper.GenerateIntArray(100)
+	b := make([]int, 10000)
+	a := helper.GenerateIntArray(10000)
 	copy(b, a)
 	SelectionSort(a)
 	sort.Ints(b)
@@ -19,7 +19,7 @@ func TestSelectionSort(t *testing.T) {
 
 func BenchmarkSelectionSort(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		a := helper.GenerateIntArray(100)
+		a := helper.GenerateIntArray(10000)
 		SelectionSort(a)
 	}
 }

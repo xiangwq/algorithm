@@ -1,63 +1,39 @@
 package Leetcode
 
-func partition(str string) [][]string {
-	l := len(str)
-	final := make([][]string, 0)
-	for i := 1; i <= l; i++ {
-		if !isPalindrome(str[0:i]) {
-			continue
-		}
-		after := getAfterStr(str[i:])
-		if after == nil {
-			final = append(final, []string{str[0:i]})
-			continue
-		}
+import "fmt"
 
-		for _, v := range after {
-			temp := make([]string, 1)
-			temp[0] = str[0:i]
-			temp = append(temp, v...)
-			final = append(final, temp)
+func partition(s string) [][]string {
+	n := len(s)
+	f := make([][]bool, n)
+	for i := range f {
+		f[i] = make([]bool, n)
+		for j := range f[i] {
+			f[i][j] = true
 		}
 	}
-	return final
-}
 
-func isPalindrome(str string) bool {
-	if len(str) < 1 {
-		return false
-	}
-	l := len(str) / 2
-	maxIndex := len(str) - 1
-	for i := 0; i <= l; i++ {
-		if str[i] != str[maxIndex-i] {
-			return false
+	for i := n - 1; i >= 0; i-- {
+		for j := i + 1; j < n; j++ {
+			f[i][j] = s[i] == s[j] && f[i+1][j-1]
+			fmt.Println(i, j, f[i][j])
 		}
 	}
-	return true
-}
 
-func getAfterStr(str string) [][]string {
-	if len(str) < 1 {
-		return nil
-	}
-	final := make([][]string, 0)
-	for i := 1; i <= len(str); i++ {
-		if !isPalindrome(str[0:i]) {
-			continue
+	var dfs func(int)
+	spiltes := make([]string, 0)
+	ans := make([][]string, 0)
+	dfs = func(i int) {
+		if i == n {
+			ans = append(ans, append([]string(nil), spiltes...))
 		}
-		after := getAfterStr(str[i:])
-		if after == nil {
-			final = append(final, []string{str[0:i]})
-			continue
-		}
-
-		for _, v := range after {
-			temp := make([]string, 0)
-			temp = append(temp, str[0:i])
-			temp = append(temp, v...)
-			final = append(final, temp)
+		for j := i; j < n; j++ {
+			if f[i][j] {
+				spiltes = append(spiltes, s[i:j+1])
+				dfs(j + 1)
+				spiltes = spiltes[:len(spiltes)-1]
+			}
 		}
 	}
-	return final
+	dfs(0)
+	return ans
 }
